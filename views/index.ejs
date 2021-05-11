@@ -4,17 +4,23 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="/style.css">
   <title>Site</title>
 </head>
 
 <body>
-  <% if (locals.trackNames) { %>
-    <% for (var i = 0; i < locals.trackNames.length; i++) {%>
-        <p><%=locals.trackNames[i]%></p>
-        <img src="<%=locals.trackImages[i]" alt="">
+  <div id="favourite-tracks-container">
+    <% if (locals.trackNames) { %>
+      <% for (var i = 0; i < locals.trackNames.length; i++) {%>
+          <div class="track-container">
+            <h3 class="track-name"><%=locals.trackNames[i]%></h3>
+            <img class="track-cover" src="<%=locals.trackImages[i]%>" alt="album cover">
+          </div>
+
+      <%}%>
     <%}%>
-  <%}%>
+  </div>
+
 
   <form action="/login" method="GET">
     <button type="submit">Call</button>

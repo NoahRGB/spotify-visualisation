@@ -1,0 +1,26 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: white;
+}
+
+body {
+  background: #1a1a1a;
+}
+
+#favourite-tracks-container {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+.track-cover {
+  width: 100%;
+}
+
+.track-container {
+  margin-left: 0.5%;
+  text-align: center;
+  width: 20%;
+}
