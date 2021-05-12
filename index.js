@@ -22,47 +22,59 @@ app.get("/", (req, res) => {
   }
   res.render("index", {
     trackNames,
-    trackImages
+    trackImages,
+    name: req.session.name,
+    followerCount: req.session.followerCount,
+    profileLink: req.session.profileLink,
+    profilePicture: req.session.profilePicture
   });
 });
 
 app.get("/login", async (req, res) => {
-  res.redirect("https://accounts.spotify.com/authorize?client_id=5bf6acdb9212466d951e92726177b259&response_type=code&redirect_uri=http://localhost:3000/callback&scope=user-top-read");
+  res.redirect("https://accounts.spotify.com/authorize?client_id=334de6cb91fe4413919a1eb357b9fb95&response_type=code&redirect_uri=http://localhost:3000/callback&scope=user-top-read");
 });
 
 app.get("/callback", (req, res) => {
-
+  req.session.tracks = [];
   request.post({
     url: "https://accounts.spotify.com/api/token",
     form: {
       code: req.query.code,
       redirect_uri: "http://localhost:3000/callback",
       grant_type: "authorization_code",
-      client_id: "5bf6acdb9212466d951e92726177b259",
-      client_secret: "eb34eb889d10430184575c9f23e7bfb5"
+      client_id: "334de6cb91fe4413919a1eb357b9fb95",
+      client_secret: "826bed314b2b4e198e66c9911de4d7ee"
     },
     json: true
   }, function(error, response, body) {
-
-    var userData = {
-      tracks: []
-    }
     const access_token = body.access_token;
+    request.get({
+      url: "https://api.spotify.com/v1/me",
+      headers: {
+        "Authorization": "Bearer "+access_token
+      },
+      json: true,
+    }, function(error2, response2, body2) {
+
+      req.session.name = body2.display_name;
+      req.session.profileLink = body2.external_urls.spotify;
+      req.session.followerCount = body2.followers.total;
+      console.log(req.session.name, req.session.profileLink, req.session.followerCount);
+      // req.session.profilePicture = body2.images[0].url;
+    });
     request.get({
       headers: {
         "Authorization": "Bearer "+access_token
       },
-      url: "https://api.spotify.com/v1/me/top/tracks?limit=10",
+      url: "https://api.spotify.com/v1/me/top/tracks?limit=100",
       json: true
     }, function(error2, response2, body2) {
       for (var i = 0; i < body2.items.length; i++) {
-        userData.tracks.push({
+        req.session.tracks.push({
           name: body2.items[i].name,
           image: body2.items[i].album.images[0].url
         });
       }
-      // console.log(userData);
-      req.session.tracks = userData.tracks;
       res.redirect("/");
     });
   });

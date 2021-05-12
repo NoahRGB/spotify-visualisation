@@ -9,6 +9,21 @@
 </head>
 
 <body>
+  <div id="profile-information-container">
+    <% if (locals.name) { %>
+      <h1><%=locals.name%></h1>
+    <% } %>
+    <% if (locals.profilePicture) { %>
+      <img width="200px" class="profile-picture" src="<%=locals.profilePicture%>" alt="Profile Picture">
+    <% } %>
+    <% if (locals.followerCount) { %>
+      <h3><%=locals.followerCount%> followers</h3>
+    <% } %>
+    <% if (locals.profileLink) { %>
+      <a href="<%=locals.profileLink%>">Your Profile</a>
+    <% } %>
+  </div>
+  <br><br><br>
   <div id="favourite-tracks-container">
     <% if (locals.trackNames) { %>
       <% for (var i = 0; i < locals.trackNames.length; i++) {%>
@@ -23,7 +38,7 @@
 
 
   <form action="/login" method="GET">
-    <button type="submit">Call</button>
+    <button id="login-button" type="submit">Login</button>
   </form>
   <script src="script.js"></script>
 </body>
