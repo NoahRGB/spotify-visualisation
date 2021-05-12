@@ -31,7 +31,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/login", async (req, res) => {
-  res.redirect("https://accounts.spotify.com/authorize?client_id=334de6cb91fe4413919a1eb357b9fb95&response_type=code&redirect_uri=http://localhost:3000/callback&scope=user-top-read");
+  res.redirect("https://accounts.spotify.com/authorize?client_id=&response_type=code&redirect_uri=http://localhost:3000/callback&scope=user-top-read");
 });
 
 app.get("/callback", (req, res) => {
@@ -42,8 +42,8 @@ app.get("/callback", (req, res) => {
       code: req.query.code,
       redirect_uri: "http://localhost:3000/callback",
       grant_type: "authorization_code",
-      client_id: "334de6cb91fe4413919a1eb357b9fb95",
-      client_secret: "826bed314b2b4e198e66c9911de4d7ee"
+      client_id: "",
+      client_secret: ""
     },
     json: true
   }, function(error, response, body) {
